@@ -6,24 +6,16 @@ import argparse
 import os
 import sys
 import json
-
 import torch
-from torch.utils.data import TensorDataset, DataLoader, RandomSampler, SequentialSampler
-import numpy as np
-import datetime
-
-from transformers import T5ForConditionalGeneration, T5Tokenizer
+from transformers import T5Tokenizer
 
 MAXLEN = 100
 
 parser = argparse.ArgumentParser(description='Get all command line arguments.')
 parser.add_argument('--model_path', type=str, help='Load path of trained model')
-parser.add_argument('--num_beams', type=int, default=1, help='Number of beams')
 parser.add_argument('--num_distractors', type=int, default=1, help='Number of distractors')
-parser.add_argument('--num_return_sequences', type=int, default=1, help='Number of return sequences')
 parser.add_argument('--test_data_path', type=str, help='Load path of test data')
 parser.add_argument('--save_path', type=str, help='Path to save generated text')
-
 
 # Set device
 def get_default_device():
@@ -99,7 +91,7 @@ def main(args):
                     input_ids=input_encodings_dict['input_ids'],
                     attention_mask=input_encodings_dict['attention_mask'],
                     do_sample=True,
-                    top_k=50,           # This parameter and the one below create more question variability but reduced quality of questions
+                    top_k=50, 
                     top_p=0.95,          
                     max_length=MAXLEN,
                     repetition_penalty=2.5,
