@@ -47,7 +47,6 @@ def main(args):
     tokenizer = T5Tokenizer.from_pretrained("t5-base", truncation_side='left')
 
     count = 0
-
     model = torch.load(args.model_path, map_location=device)
     model.eval().to(device)
 
@@ -85,11 +84,10 @@ def main(args):
             current['generated_distractors'] = []
             combo = context + " [SEP] " + question + " [SEP] " + corr_opt
             input_encodings_dict = tokenizer(combo, truncation=True, max_length=512, padding="max_length", return_tensors="pt")
-
             for _ in range(args.num_distractors):
                 all_generated_ids = model.generate(
-                    input_ids=input_encodings_dict['input_ids'],
-                    attention_mask=input_encodings_dict['attention_mask'],
+                    input_ids=input_encodings_dict['input_ids'].to(device),
+                    attention_mask=input_encodings_dict['attention_mask'].to(device),
                     do_sample=True,
                     top_k=50, 
                     top_p=0.95,          
@@ -102,13 +100,9 @@ def main(args):
                 for generated_ids in all_generated_ids:
                     genDist = tokenizer.decode(generated_ids, skip_special_tokens=True, clean_up_tokenization_spaces=True)
                     current['generated_distractors'].append(genDist)
-
             all_generated_text.append(current)
-
     with open(args.save_path + 'generated.json', 'w') as f:
         json.dump(all_generated_text, f)
-
-
 
 if __name__ == '__main__':
     args = parser.parse_args()
