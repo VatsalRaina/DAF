@@ -65,8 +65,8 @@ def main(args):
     for item in test_data:
         print(count, len(test_data))
         count+=1
-        if count == 100:
-            break
+        # if count == 100:
+        #     break
         context = item["article"]
         questions = item["questions"]
         answers = item["answers"]
