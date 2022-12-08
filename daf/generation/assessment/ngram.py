@@ -42,7 +42,7 @@ def main(args):
         rouge1_scores = []
         for gen_distractor in unique_generated_distractors:
             bleu1 = sentence_bleu(clean_ground_truth_distractors, gen_distractor, weights=(1, 0, 0, 0))
-            rouge1 = max([rouge.get_scores(' '.join(gen_distractor), ' '.join(gt))['rouge-1']['r'] for gt in clean_ground_truth_distractors])
+            rouge1 = max([rouge.get_scores(' '.join(gen_distractor), ' '.join(gt))[0]['rouge-1']['r'] for gt in clean_ground_truth_distractors])
             bleu1_scores.append(bleu1)
             rouge1_scores.append(rouge1)
 
