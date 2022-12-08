@@ -7,6 +7,7 @@ import string
 import json
 import numpy as np
 from nltk.translate.bleu_score import sentence_bleu
+from rouge import Rouge
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
@@ -22,8 +23,8 @@ def main(args):
 
 
     # A = best distractor
-    scoresA = {'bleu-1': [], 'bleu-4': []}
-
+    scoresA = {'bleu-1': [], 'rouge-1': []}
+    rouge = Rouge()
     for ex in all_data:
         generated_distractors = ex['generated_distractors']
         unique_generated_distractors = set(generated_distractors)
@@ -38,27 +39,27 @@ def main(args):
         for s in ground_truth_distractors:
             clean_ground_truth_distractors.append( s.lower().translate(str.maketrans('', '', string.punctuation)).split() )
         bleu1_scores = []
-        bleu4_scores = []
+        rouge1_scores = []
         for gen_distractor in unique_generated_distractors:
             bleu1 = sentence_bleu(clean_ground_truth_distractors, gen_distractor, weights=(1, 0, 0, 0))
-            bleu4 = sentence_bleu(clean_ground_truth_distractors, gen_distractor, weights=(0, 0, 0, 1))
+            rouge1 = max([rouge.get_scores(' '.join(gen_distractor), ' '.join(gt))['rouge-1']['r'] for gt in clean_ground_truth_distractors])
             bleu1_scores.append(bleu1)
-            bleu4_scores.append(bleu4)
+            rouge1_scores.append(rouge1)
 
-        scoresA['bleu-1'].append(min(bleu1_scores))
-        scoresA['bleu-4'].append(min(bleu4_scores))
+        scoresA['bleu-1'].append(max(bleu1_scores))
+        scoresA['rouge-1'].append(max(rouge1_scores))
 
     best_bleu1_scores = np.asarray(scoresA['bleu-1'])
-    best_bleu4_scores = np.asarray(scoresA['bleu-4'])
+    best_rouge1_scores = np.asarray(scoresA['rouge-1'])
 
     print("Mean bleu-1 score:", np.mean(best_bleu1_scores))
-    print("Mean bleu-4 score:", np.mean(best_bleu4_scores))
+    print("Mean rouge-1 score:", np.mean(best_rouge1_scores))
 
     # Plot boxplots
     data = []
-    for b1, b4 in zip(best_bleu1_scores, best_bleu4_scores):
+    for b1, r1 in zip(best_bleu1_scores, best_rouge1_scores):
         data.append({'Metric': 'BLEU-1', 'Score': b1})
-        data.append({'Metric': 'BLEU-4', 'Score': b4})
+        data.append({'Metric': 'ROUGE-1', 'Score': r1})
     df = pd.DataFrame(data)
     sns.violinplot(data=df, x='Score', y='Metric')
     plt.savefig(args.save_path + 'ngram.png')
