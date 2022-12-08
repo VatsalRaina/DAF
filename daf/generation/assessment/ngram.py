@@ -31,6 +31,7 @@ def main(args):
         options = ex['options']
         lab = ex['label']
         ground_truth_distractors = options.pop(lab)
+        print(ground_truth_distractors)
         # Clean out punctuation, lower case and convert to the form of a list
         clean_generated_distractors = []
         for s in unique_generated_distractors:
@@ -39,7 +40,9 @@ def main(args):
             clean_generated_distractors.append(cleaned)
         clean_ground_truth_distractors = []
         for s in ground_truth_distractors:
+            print(s)
             cleaned = s.lower().translate(str.maketrans('', '', string.punctuation)).split()
+            print(cleaned)
             # if len(cleaned) != 0:
             clean_ground_truth_distractors.append(cleaned)
         bleu1_scores = []
