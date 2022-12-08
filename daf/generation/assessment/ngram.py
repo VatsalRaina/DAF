@@ -41,7 +41,7 @@ def main(args):
         for s in ground_truth_distractors:
             cleaned = s.lower().translate(str.maketrans('', '', string.punctuation)).split()
             if len(cleaned) == 0:
-                print(s, cleaned)
+                cleaned = 'empty'
             clean_ground_truth_distractors.append(cleaned)
         bleu1_scores = []
         rouge1_scores = []
