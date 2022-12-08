@@ -45,8 +45,8 @@ def main(args):
             bleu1_scores.append(bleu1)
             bleu4_scores.append(bleu4)
 
-        scoresA['bleu-1'].append(max(bleu1_scores))
-        scoresA['bleu-4'].append(max(bleu4_scores))
+        scoresA['bleu-1'].append(min(bleu1_scores))
+        scoresA['bleu-4'].append(min(bleu4_scores))
 
     best_bleu1_scores = np.asarray(scoresA['bleu-1'])
     best_bleu4_scores = np.asarray(scoresA['bleu-4'])
@@ -60,7 +60,7 @@ def main(args):
         data.append({'Metric': 'BLEU-1', 'Score': b1})
         data.append({'Metric': 'BLEU-4', 'Score': b4})
     df = pd.DataFrame(data)
-    sns.boxplot(data=df, x='Score', y='Metric')
+    sns.violinplot(data=df, x='Score', y='Metric')
     plt.savefig(args.save_path + 'ngram.png')
 
 
