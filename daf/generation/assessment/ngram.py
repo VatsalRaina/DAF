@@ -34,7 +34,9 @@ def main(args):
         # Clean out punctuation, lower case and convert to the form of a list
         clean_generated_distractors = []
         for s in unique_generated_distractors:
-            clean_generated_distractors.append( s.lower().translate(str.maketrans('', '', string.punctuation)).split() )
+            cleaned = s.lower().translate(str.maketrans('', '', string.punctuation)).split()
+            if len(cleaned) != 0:
+                clean_generated_distractors.append(cleaned)
         clean_ground_truth_distractors = []
         for s in ground_truth_distractors:
             cleaned = s.lower().translate(str.maketrans('', '', string.punctuation)).split()
