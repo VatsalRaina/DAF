@@ -37,7 +37,9 @@ def main(args):
             clean_generated_distractors.append( s.lower().translate(str.maketrans('', '', string.punctuation)).split() )
         clean_ground_truth_distractors = []
         for s in ground_truth_distractors:
-            clean_ground_truth_distractors.append( s.lower().translate(str.maketrans('', '', string.punctuation)).split() )
+            cleaned = s.lower().translate(str.maketrans('', '', string.punctuation)).split()
+            if cleaned != []
+                clean_ground_truth_distractors.append(cleaned)
         bleu1_scores = []
         rouge1_scores = []
         for gen_distractor in unique_generated_distractors:
