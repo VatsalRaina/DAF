@@ -49,7 +49,7 @@ def main(args):
                 else:
                     # randomly sample a distractor
                     sample_item = test_data[random.randint(0,len(test_data))]
-                    sample_options = sample_item[random.randint(0,len(sample_options))]
+                    sample_options = sample_item[random.randint(0,len(sample_item))]
                     sample_distractor = sample_options[random.randint(0,4)]
                     new_opts.append(sample_distractor)
             new_options.append(new_opts)
