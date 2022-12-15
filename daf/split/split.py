@@ -36,10 +36,10 @@ def main(args):
     train_generation = train_data[cutoff:]
 
     with open(args.save_dir + 'train-comprehension.json', 'w') as f:
-        json.dump(train_comprehension)
+        json.dump(train_comprehension, f)
 
     with open(args.save_dir + 'train-generation.json', 'w') as f:
-        json.dump(train_generation)
+        json.dump(train_generation, f)
 
 
 if __name__ == '__main__':
