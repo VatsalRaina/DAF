@@ -31,7 +31,7 @@ def main(args):
 
     random.shuffle(train_data)
 
-    cutoff = len(train_data) * COMP_SPLIT
+    cutoff = int(len(train_data) * COMP_SPLIT)
     train_comprehension = train_data[:cutoff]
     train_generation = train_data[cutoff:]
 
