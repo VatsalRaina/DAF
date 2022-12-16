@@ -93,7 +93,6 @@ def main(args):
                 new_opts.append(genDist)
             new_opts.insert(lab, corr_opt)
             new_options.append(new_opts)
-            print(blah)
         curr = {"article": context, "questions": questions, "answers": answers, "options": new_options}
         all_generated_text.append(curr)
     with open(args.save_dir + 'generated.json', 'w') as f:
