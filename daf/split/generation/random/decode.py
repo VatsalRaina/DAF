@@ -48,8 +48,9 @@ def main(args):
                     new_opts.append(opt)
                 else:
                     # randomly sample a distractor
-                    sample_item = test_data[random.randint(0,len(test_data)-1)]
-                    sample_options = sample_item["options"][random.randint(0,len(sample_item["options"])-1)]
+                    sample_item = test_data[random.randint(0,len(test_data)-1)]["options"]
+                    print(len(sample_item))
+                    sample_options = sample_item[random.randint(0,len(sample_item)-1)]
                     sample_distractor = sample_options[random.randint(0,3)]
                     new_opts.append(sample_distractor)
             new_options.append(new_opts)
