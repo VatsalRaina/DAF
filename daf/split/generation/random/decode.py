@@ -47,12 +47,16 @@ def main(args):
                 if opt_num == lab:
                     new_opts.append(opt)
                 else:
-                    # randomly sample a distractor
-                    sample_item = test_data[random.randint(0,len(test_data)-1)]["options"]
-                    print(len(sample_item))
-                    sample_options = sample_item[random.randint(0,len(sample_item)-1)]
-                    sample_distractor = sample_options[random.randint(0,3)]
-                    new_opts.append(sample_distractor)
+                    findOptions = False
+                    while not(findOptions):
+                        # randomly sample a distractor
+                        sample_item = test_data[random.randint(0,len(test_data)-1)]["options"]
+                        if len(sample_item) == 0:
+                            continue
+                        findOptions = True
+                        sample_options = sample_item[random.randint(0,len(sample_item)-1)]
+                        sample_distractor = sample_options[random.randint(0,3)]
+                        new_opts.append(sample_distractor)
             new_options.append(new_opts)
         curr = {"article": context, "questions": questions, "answers": answers, "options": new_options}
         generated_text.append(curr)
