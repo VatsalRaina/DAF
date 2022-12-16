@@ -89,7 +89,6 @@ def main(args):
             new_opts = []
             for generated_ids in all_generated_ids:
                 genDist = tokenizer.decode(generated_ids, skip_special_tokens=True, clean_up_tokenization_spaces=True)
-                print(genDist)
                 new_opts.append(genDist)
             new_opts.insert(lab, corr_opt)
             new_options.append(new_opts)
