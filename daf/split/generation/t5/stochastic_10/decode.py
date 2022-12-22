@@ -38,13 +38,8 @@ def main(args):
     # Choose device
     device = get_default_device()
 
-    with open(args.test_data_path + "middle.json") as f:
-        middle_data = json.load(f)
-    with open(args.test_data_path + "high.json") as f:
-        high_data = json.load(f)
-    with open(args.test_data_path + "college.json") as f:
-        college_data = json.load(f)
-    test_data = middle_data + high_data + college_data   
+    with open(args.test_data_path) as f:
+        test_data = json.load(f) 
 
     tokenizer = T5Tokenizer.from_pretrained("t5-base", truncation_side='left')
 
