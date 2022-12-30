@@ -124,7 +124,7 @@ class Selector:
             current_for_discriminator['generated_distractors'] = ranked_generated_distractors
             processed_data_for_discriminator.append(current_for_discriminator)
         self._save_for_discriminator(processed_data_for_discriminator)
-
+        return processed_data
 
 
     def select(self, ranking):
