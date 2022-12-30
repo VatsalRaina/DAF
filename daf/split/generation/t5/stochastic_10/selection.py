@@ -93,7 +93,7 @@ class Selector:
         attention_masks = torch.tensor(attention_masks)
         attention_masks = attention_masks.long().to(self.device)
         with torch.no_grad():
-            outputs = self.model(input_ids=input_ids, attention_masks=attention_masks, token_type_ids=token_type_ids)
+            outputs = self.model(input_ids=input_ids, attention_mask=attention_masks, token_type_ids=token_type_ids)
         logits = outputs[0][0].detach().cpu().numpy()
         ordering = np.argsort(logits)
         ordered_distractors = []
