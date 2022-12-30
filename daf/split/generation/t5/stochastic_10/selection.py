@@ -136,7 +136,7 @@ class Selector:
 
 def main(args):
 
-    selector = Selector(args.generated_path)
+    selector = Selector(args.generated_path, args.mrc_model_path)
     final_data = selector.select(args.selection)
 
     with open(args.save_dir + 'generated.json', 'w') as f:
