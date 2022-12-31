@@ -117,7 +117,7 @@ class Selector:
                 if opt_num == ex['label']:
                     new_opts.append(opt)
                 else:
-                    new_opts.append(ranked_generated_distractors[0])
+                    new_opts.append(ranked_generated_distractors[-1])
             current = {"article": ex['context'], "questions":[ex['question']], "answers":[asLetter(ex['label'])], "options": [new_opts]}
             processed_data.append(current)
             current_for_discriminator = ex
