@@ -98,22 +98,16 @@ class Selector:
         return logits
 
     def _save_for_discriminator(self, data):
-        with open('generated_for_discriminator.json', 'w') as f:
+        with open('all.json', 'w') as f:
             json.dump(data, f)
 
     def _mrc_select(self):
         processed_data_for_discriminator = []
-        ######## TO REMOVE #####
-        import random
-        random.shuffle(self.all_data)
-        self.all_data = self.all_data[:200]
-        ########################
         for count, ex in enumerate(self.all_data):
             print(count, len(self.all_data))
             context, question, generated_distractors = ex['context'], ex['question'], ex['generated_distractors']
             generated_distractor_logits = self._mrc_logit(context, question, generated_distractors)
             options_logits = self._mrc_logit(context, question, ex['options'])
-            print(options_logits)
             current_for_discriminator = ex
             current_for_discriminator['generated_distractor_logits'] = generated_distractor_logits
             current_for_discriminator['options_logits'] = options_logits
