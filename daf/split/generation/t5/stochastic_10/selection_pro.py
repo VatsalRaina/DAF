@@ -62,7 +62,7 @@ class Selector:
             processed_data.append(current)
         return processed_data
 
-    def _mrc_rank(self, context, question, distractors):
+    def _mrc_logit(self, context, question, distractors):
         four_inp_ids = []
         four_tok_type_ids = []
         for opt in distractors:
@@ -94,14 +94,8 @@ class Selector:
         attention_masks = attention_masks.long().to(self.device)
         with torch.no_grad():
             outputs = self.model(input_ids=input_ids, attention_mask=attention_masks, token_type_ids=token_type_ids)
-        logits = outputs[0][0].detach().cpu().numpy()
-        ordering = np.argsort(logits)
-        ordered_distractors = []
-        ordered_distractor_logits = []
-        for pos in ordering:
-            ordered_distractors.append(distractors[pos])
-            ordered_distractor_logits.append(logits[pos])
-        return ordered_distractors, ordered_distractor_logits
+        logits = outputs[0][0].detach().cpu().numpy().tolist()
+        return logits
 
     def _save_for_discriminator(self, data):
         with open('generated_for_discriminator.json', 'w') as f:
@@ -117,32 +111,24 @@ class Selector:
         for count, ex in enumerate(self.all_data):
             print(count, len(self.all_data))
             context, question, generated_distractors = ex['context'], ex['question'], ex['generated_distractors']
-            ranked_generated_distractors, ranked_distractor_logits = self._mrc_rank(context, question, generated_distractors)
-            gt_distractors = []
-            for opt_num, opt in enumerate(ex['options']):
-                if opt_num == ex['label']:
-                    continue
-                else:
-                    gt_distractors.append(opt)
-            ranked_gt_distractors, ranked_gt_logits = self._mrc_rank(context, question, gt_distractors)
+            generated_distractor_logits = self._mrc_logit(context, question, generated_distractors)
+            options_logits = self._mrc_logit(context, question, ex['options'])
+            print(options_logits)
             current_for_discriminator = ex
-            current_for_discriminator['generated_distractors'] = ranked_generated_distractors
-            current_for_discriminator['generated_distractor_logits'] = ranked_distractor_logits.tolist()
-            current_for_discriminator['gt_distractors'] = ranked_gt_distractors
-            current_for_discriminator['gt_distractor_logits'] = ranked_gt_logits.tolist()
+            current_for_discriminator['generated_distractor_logits'] = generated_distractor_logits
+            current_for_discriminator['options_logits'] = options_logits
             processed_data_for_discriminator.append(current_for_discriminator)
         self._save_for_discriminator(processed_data_for_discriminator)
 
 
-    def select(self, ranking):
-        print(ranking)
+    def select(self):
         self._mrc_select()
 
 
 def main(args):
 
     selector = Selector(args.generated_path, args.mrc_model_path)
-    selector.select(args.selection)
+    selector.select()
 
 if __name__ == '__main__':
     args = parser.parse_args()
