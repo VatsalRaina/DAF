@@ -127,9 +127,9 @@ class Selector:
             ranked_gt_distractors, ranked_gt_logits = self._mrc_rank(context, question, gt_distractors)
             current_for_discriminator = ex
             current_for_discriminator['generated_distractors'] = ranked_generated_distractors
-            current_for_discriminator['generated_distractor_logits'] = ranked_distractor_logits
+            current_for_discriminator['generated_distractor_logits'] = ranked_distractor_logits.tolist()
             current_for_discriminator['gt_distractors'] = ranked_gt_distractors
-            current_for_discriminator['gt_distractor_logits'] = ranked_gt_logits
+            current_for_discriminator['gt_distractor_logits'] = ranked_gt_logits.tolist()
             processed_data_for_discriminator.append(current_for_discriminator)
         self._save_for_discriminator(processed_data_for_discriminator)
 
