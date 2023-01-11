@@ -109,6 +109,11 @@ class Selector:
 
     def _mrc_select(self):
         processed_data_for_discriminator = []
+        ######## TO REMOVE #####
+        import random
+        random.shuffle(self.all_data)
+        self.all_data = self.all_data[:200]
+        ########################
         for count, ex in enumerate(self.all_data):
             print(count, len(self.all_data))
             context, question, generated_distractors = ex['context'], ex['question'], ex['generated_distractors']
