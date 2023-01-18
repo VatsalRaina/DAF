@@ -86,7 +86,7 @@ def main(args):
     input_ids = []
     token_type_ids = []
 
-    for item in train_data[:10]:
+    for item in train_data:
         context = item["article"]
         questions = item["questions"]
         answers = item["answers"]
