@@ -153,8 +153,8 @@ def main(args):
                 elapsed = format_time(time.time() - t0)
                 print('  Batch {:>5,}  of  {:>5,}.    Elapsed: {:}.'.format(step, len(train_dataloader), elapsed))
             b_input_ids = batch[0].to(device)
-            b_att_msks = batch[2].to(device)
-            b_labs = batch[3].to(device)
+            b_att_msks = batch[1].to(device)
+            b_labs = batch[2].to(device)
             model.zero_grad()
             outputs = model(input_ids=b_input_ids, attention_mask=b_att_msks, labels=b_labs)
             loss = outputs[0]
