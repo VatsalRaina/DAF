@@ -90,7 +90,7 @@ def main(args):
     input_ids = []
     input_att_msks = []
 
-    for count, item in enumerate(train_data[:10]):
+    for count, item in enumerate(train_data):
         print(count, len(train_data))
         context = item["article"]
         questions = item["questions"]
