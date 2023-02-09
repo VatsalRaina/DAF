@@ -120,7 +120,7 @@ def main(args):
     input_att_msks = input_att_msks.long().to(device)
 
     # Create the DataLoader for training set.
-    train_data = TensorDataset(input_ids, attention_masks, labels)
+    train_data = TensorDataset(input_ids, input_att_msks, labels)
     train_sampler = RandomSampler(train_data)
     train_dataloader = DataLoader(train_data, sampler=train_sampler, batch_size=args.batch_size)
 
