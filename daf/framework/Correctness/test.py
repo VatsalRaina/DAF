@@ -78,8 +78,6 @@ def main(args):
                 input_att_msks.append(input_encodings_dict['attention_mask'])
 
     # Convert to torch tensors
-    labels = torch.tensor(labels)
-    labels = labels.long().to(device)
     input_ids = torch.tensor(input_ids)
     input_ids = input_ids.long().to(device)
     input_att_msks = torch.tensor(input_att_msks)
