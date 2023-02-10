@@ -94,7 +94,7 @@ def main(args):
     for inp_id, att_msk in dl:
         print(count)
         count+=1
-        inp_id, tok_typ_id, att_msk = inp_id.to(device), att_msk.to(device)
+        inp_id, att_msk = inp_id.to(device), att_msk.to(device)
         with torch.no_grad():
             outputs = model(input_ids=inp_id, attention_mask=att_msk)
         curr_logits = outputs[0]
