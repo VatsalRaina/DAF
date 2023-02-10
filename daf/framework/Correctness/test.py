@@ -63,7 +63,7 @@ def main(args):
     input_ids = []
     input_att_msks = []
 
-    for count, item in enumerate(test_data[:10]):
+    for count, item in enumerate(test_data):
         print(count, len(test_data))
         context = item["article"]
         questions = item["questions"]
