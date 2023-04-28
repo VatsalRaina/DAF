@@ -65,7 +65,7 @@ def main(args):
     count = 0
 
     for item in test_data:
-        context = item["context"]
+        context = item["article"]
         question = item["question"]
         four_inp_ids = []
         four_tok_type_ids = []
